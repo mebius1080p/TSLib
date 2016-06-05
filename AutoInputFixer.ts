@@ -1,0 +1,37 @@
+/**
+ * AutoInputFixer
+ */
+class AutoInputFixer {
+	private reZenkaku = /[！＃＄％（）＊＋，－．／０-９：；＝？＠Ａ-Ｚ［］＾＿｀ａ-ｚ｛｜｝]/g;
+	constructor() {
+		this.setEvent();
+	}
+	private setEvent() {
+		let inputs = document.querySelectorAll(".auto_fix");
+		for (var i = 0; i < inputs.length; i++) {
+			var element = inputs[i];
+			element.addEventListener("blur", e => {
+				let val = (<HTMLInputElement>e.target).value;
+				val = this.toHankaku(val);
+				let isPreserveSpace = (<HTMLInputElement>e.target).classList.contains("preserve_space");
+				if (isPreserveSpace) {//名前などの間にある連続するスペースはそのままにする
+					val = val.replace(/\s{2,}/g, ' ');
+				} else {//スペース全削除
+					val = val.replace(/ /g, "");
+				}
+				(<HTMLInputElement>e.target).value = val;//書き戻し
+			}, false);
+		}
+	}
+	/**
+	 *全角文字をすべて半角にする ついでにカンマも _ に変換 トリムもする
+	 *@param {string} str 文字列
+	 *@return {string} すべて半角になった文字列
+	 */
+	private toHankaku(str: string): string {
+		str = str.replace(this.reZenkaku, str => {
+			return String.fromCharCode(str.charCodeAt(0) - 65248);
+		}).replace(/[　]/g, " ").replace(/,/g, "_").trim();
+		return str;
+	}
+}
