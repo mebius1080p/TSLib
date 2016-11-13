@@ -12,23 +12,23 @@ class ValidateErrorHandler {
 	}
 	private setEvent() {
 		document.getElementById(this.target).addEventListener("onerror", e => {
-			let errorList = e.detail;
-			for (var i = 0; i < errorList.length; i++) {
-				var element = errorList[i];
+			const errorList = (<any>e).detail;
+			for (let i = 0; i < errorList.length; i++) {
+				const element = errorList[i];
 				document.getElementById(element).classList.add("lack_inp");
 			}
 		}, false);
 		document.getElementById(this.target).addEventListener("onreset", e => {
-			//必須のほう
-			let inputs = document.querySelectorAll(".validate_text");
-			for (var i = 0; i < inputs.length; i++) {
-				var elm = inputs[i];
+			// 必須のほう
+			const inputs = document.querySelectorAll(".validate_text");
+			for (let i = 0; i < inputs.length; i++) {
+				const elm = inputs[i];
 				elm.classList.remove("lack_inp");
 			}
-			//オプションのほう
-			let inputs2 = document.querySelectorAll(".validate_option");
-			for (var i = 0; i < inputs2.length; i++) {
-				var elm = inputs2[i];
+			// オプションのほう
+			const inputs2 = document.querySelectorAll(".validate_option");
+			for (let i = 0; i < inputs2.length; i++) {
+				const elm = inputs2[i];
 				elm.classList.remove("lack_inp");
 			}
 		}, false);

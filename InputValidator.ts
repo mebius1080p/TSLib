@@ -4,7 +4,7 @@
 class InputValidator {
 	private vObj: { "id": string, "value": string, "method": string, "required": boolean }[];
 	private errorIds: string[] = [];
-	private reMail = /.+@.+/;//簡易メアドチェック
+	private reMail = /.+@.+/; // 簡易メアドチェック
 	private rePostal = /^[0-9]{7}$/;
 	private rePhone = /^[0-9][0-9\-]+[0-9]$/;
 
@@ -19,27 +19,27 @@ class InputValidator {
 	}
 	private gatherElements() {
 		let inputs = document.querySelectorAll(".validate_text");
-		for (var i = 0; i < inputs.length; i++) {
-			var element = inputs[i];
+		for (let i = 0; i < inputs.length; i++) {
+			const element = inputs[i];
 			this.vObj.push({
-				"id": element.id,//バリデートエラー時にクラスを付与するために使用
+				"id": element.id, // バリデートエラー時にクラスを付与するために使用
 				"value": (<HTMLInputElement>element).value,
 				"method": element.getAttribute("data-validate-method"),
-				"required": element.classList.contains("required")//このフラグを別に用意することで、必須ではないがバリデートはしたいという要望に応えられる
+				"required": element.classList.contains("required")// このフラグを別に用意することで、必須ではないがバリデートはしたいという要望に応えられる
 			});
 		}
-		//ラジオボタン、チェックボックスは未実装
+		// ラジオボタン、チェックボックスは未実装
 	}
 	private validate() {
-		for (var i = 0; i < this.vObj.length; i++) {
-			var element = this.vObj[i];
+		for (let i = 0; i < this.vObj.length; i++) {
+			const element = this.vObj[i];
 			if (element.required) {
 				let isValid = this[element.method](element.value);
 				if (!isValid) {
 					this.errorIds.push(element.id);
 				}
 			} else {
-				if (element.value !== "") {//必須でなくとも何か入っていればバリデートする
+				if (element.value !== "") {// 必須でなくとも何か入っていればバリデートする
 					let isValid = this[element.method](element.value);
 					if (!isValid) {
 						this.errorIds.push(element.id);
@@ -54,10 +54,10 @@ class InputValidator {
 	public ValidateOptional() {
 		let inputs = document.querySelectorAll(".validate_option");
 		let optional = [];
-		let filledCount = 0;//一つでも埋まっているかどうかをチェックするフラグ
-		//データ収集　オブジェクトの配列を作る
-		for (var i = 0; i < inputs.length; i++) {
-			var element = inputs[i];
+		let filledCount = 0; // 一つでも埋まっているかどうかをチェックするフラグ
+		// データ収集　オブジェクトの配列を作る
+		for (let i = 0; i < inputs.length; i++) {
+			const element = inputs[i];
 			optional.push({
 				"id": element.id,
 				"value": (<HTMLInputElement>element).value,
@@ -68,15 +68,15 @@ class InputValidator {
 			}
 		}
 		if (filledCount > 0) {
-			//何か一つでも入っていればチェックする
-			for (var i = 0; i < optional.length; i++) {
-				var elm = optional[i];
+			// 何か一つでも入っていればチェックする
+			for (let i = 0; i < optional.length; i++) {
+				const elm = optional[i];
 				if (elm.value === "") {
-					this.errorIds.push(elm.id);//空なら追加
+					this.errorIds.push(elm.id); // 空なら追加
 				} else {
 					let isValid = this[elm.method](elm.value);
 					if (!isValid) {
-						this.errorIds.push(elm.id);//バリデートエラーでも追加
+						this.errorIds.push(elm.id); // バリデートエラーでも追加
 					}
 				}
 			}
