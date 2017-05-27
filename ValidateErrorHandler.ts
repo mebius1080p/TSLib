@@ -1,10 +1,11 @@
 /**
  * ValidateErrorHandler
+ * input にイベント設定することで、バリデート時のクラス付与などを設定するクラス
  */
 class ValidateErrorHandler {
 	private target: string;
 	/**
-	 *@param {string} eventTarget イベントをセットするターゲット要素の id
+	 * @param {string} eventTarget イベントをセットするターゲット要素の id
 	 */
 	constructor(eventTarget: string) {
 		this.target = eventTarget;
