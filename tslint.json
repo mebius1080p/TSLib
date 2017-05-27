@@ -1,4 +1,9 @@
 {
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
     "rules": {
         "class-name": true,
         "comment-format": [
@@ -9,6 +14,15 @@
             true,
             "tab"
         ],
+        "no-angle-bracket-type-assertion": false,
+        "max-line-length": [
+            300
+        ],
+        "object-literal-key-quotes": [
+            false
+        ],
+        "prefer-for-of": false,
+        "arrow-parens": false,
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-internal-module": true,
@@ -54,5 +68,6 @@
             "check-separator",
             "check-type"
         ]
-    }
+    },
+    "rulesDirectory": []
 }
