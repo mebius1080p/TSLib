@@ -8,9 +8,15 @@
 		"noImplicitUseStrict": true,
 		"outDir": "./dist",
 		"rootDir": "./ts",
-		"sourceMap": false
+		"sourceMap": false,
+		"lib":[//promise のエラー回避のために必要
+			"dom",
+			"es5",
+			"es2015.promise"
+		]
 	},
 	"include": [
-		"ts/**/*"
+		"ts/**/*",
+		"typings/**/*"
 	]
 }
