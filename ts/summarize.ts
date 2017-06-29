@@ -4,7 +4,7 @@
  * @param {string[]} aArray 単純配列
  * @return {string[]} 重複が排除され、ソートされた配列
  */
-export function summarize(aArray: string): string[] {
+export function summarize(aArray: string[]): string[] {
 	const tempObj = {};
 	for (let i = 0, len = aArray.length; i < len; i++) {
 		tempObj[aArray[i]] = true;
