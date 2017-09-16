@@ -35,6 +35,24 @@ export function fetchUtilJson(request: Request): Promise<object> {
 }
 
 /**
+ * fetchUtilJson の async/await バージョン。行数は短い
+ * @param request リクエスト
+ * @return Promise<any> プロミス。return で返した値が Promise にくるまれて返される
+ * @throws any 通信エラー、ステータス bad などで例外
+ */
+export async function asyncFetchUtilJson(request: Request): Promise<any> {
+	const response: Response = await fetch(request);
+	if (!response.ok) {
+		throw response;
+	}
+	const json: any = await response.json();
+	if (json.status !== "ok") {
+		throw json;
+	}
+	return json;
+}
+
+/**
  * クラスにつけた名前で要素を無効にする関数
  * @param className 無効にする要素につけたクラス名
  */
