@@ -12,10 +12,11 @@
         ],
         "indent": [
             true,
-            "tab"
+            "tabs"
         ],
         "no-angle-bracket-type-assertion": false,
         "max-line-length": [
+            true,
             300
         ],
         "object-literal-key-quotes": [
