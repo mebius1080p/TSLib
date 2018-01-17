@@ -63,7 +63,7 @@ function fetchUtilJson(request) {
     });
 }
 exports.fetchUtilJson = fetchUtilJson;
-function asyncFetchUtilJson(request) {
+function fetchUtilJsonAsync(request) {
     return __awaiter(this, void 0, void 0, function () {
         var response, json;
         return __generator(this, function (_a) {
@@ -85,7 +85,7 @@ function asyncFetchUtilJson(request) {
         });
     });
 }
-exports.asyncFetchUtilJson = asyncFetchUtilJson;
+exports.fetchUtilJsonAsync = fetchUtilJsonAsync;
 function disableButtonByClassName(className) {
     var buttons = document.querySelectorAll("." + className);
     Array.prototype.forEach.call(buttons, function (btn) {
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     req = new Request("./success.json");
-                    return [4, common_1.asyncFetchUtilJson(req)];
+                    return [4, common_1.fetchUtilJsonAsync(req)];
                 case 1:
                     result = _a.sent();
                     console.log("success!");
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     req = new Request("./404.json");
-                    return [4, common_1.asyncFetchUtilJson(req)];
+                    return [4, common_1.fetchUtilJsonAsync(req)];
                 case 1:
                     result = _a.sent();
                     console.log("success!");
@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     req = new Request("./bad.json");
-                    return [4, common_1.asyncFetchUtilJson(req)];
+                    return [4, common_1.fetchUtilJsonAsync(req)];
                 case 1:
                     result = _a.sent();
                     console.log("success!");

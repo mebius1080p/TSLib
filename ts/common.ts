@@ -40,7 +40,7 @@ export function fetchUtilJson(request: Request): Promise<object> {
  * @return Promise<any> プロミス。return で返した値が Promise にくるまれて返される
  * @throws any 通信エラー、ステータス bad などで例外
  */
-export async function asyncFetchUtilJson(request: Request): Promise<any> {
+export async function fetchUtilJsonAsync(request: Request): Promise<any> {
 	const response: Response = await fetch(request);
 	if (!response.ok) {
 		throw response;
