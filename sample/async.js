@@ -35,6 +35,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+function redirectChecker(response) {
+    var refresh = response.headers.get("refresh");
+    var reRedirect = /^0;url=(.+)$/;
+    if (refresh !== null) {
+        if (reRedirect.test(refresh)) {
+            var result = refresh.match(reRedirect);
+            location.href = result[1];
+        }
+    }
+}
 function fireEventById(targetid, eventname, data) {
     var evt = document.createEvent("CustomEvent");
     evt.initCustomEvent(eventname, false, false, data);
@@ -43,6 +53,7 @@ function fireEventById(targetid, eventname, data) {
 exports.fireEventById = fireEventById;
 function fetchUtilJson(request) {
     return fetch(request).then(function (response) {
+        redirectChecker(response);
         return new Promise(function (resolve, reject) {
             if (response.ok) {
                 resolve(response.json());
@@ -71,6 +82,7 @@ function fetchUtilJsonAsync(request) {
                 case 0: return [4, fetch(request)];
                 case 1:
                     response = _a.sent();
+                    redirectChecker(response);
                     if (!response.ok) {
                         throw response;
                     }

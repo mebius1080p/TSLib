@@ -1,4 +1,19 @@
 /**
+ * fetch 時のレスポンスでリダイレクトが帰ってきたときのための関数
+ * @param response fetch レスポンス
+ */
+function redirectChecker(response: Response): void {
+	const refresh: string = response.headers.get("refresh");
+	const reRedirect: RegExp = /^0;url=(.+)$/;
+	if (refresh !== null) {
+		if (reRedirect.test(refresh)) {
+			const result: RegExpMatchArray = refresh.match(reRedirect);
+			location.href = result[1];
+		}
+	}
+}
+
+/**
  * イベントを発生させる関数
  * @param targetid イベントを発生させる要素の id
  * @param eventname イベント名
@@ -16,6 +31,7 @@ export function fireEventById(targetid: string, eventname: string, data: object)
  */
 export function fetchUtilJson(request: Request): Promise<object> {
 	return fetch(request).then(response => {
+		redirectChecker(response);
 		return new Promise((resolve, reject) => {
 			if (response.ok) {
 				resolve(response.json());
@@ -42,6 +58,7 @@ export function fetchUtilJson(request: Request): Promise<object> {
  */
 export async function fetchUtilJsonAsync(request: Request): Promise<any> {
 	const response: Response = await fetch(request);
+	redirectChecker(response);
 	if (!response.ok) {
 		throw response;
 	}
