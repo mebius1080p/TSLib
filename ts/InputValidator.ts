@@ -1,6 +1,6 @@
 /**
  * InputValidator
- * バリデートしたい要素に特定の属性やクラスを付与することで自動針デートを行うクラス
+ * バリデートしたい要素に特定の属性やクラスを付与することで自動バリデートを行うクラス
  */
 class InputValidator {
 	private vObj: Array<{ "id": string, "value": string, "method": string, "required": boolean }>;
@@ -22,12 +22,12 @@ class InputValidator {
 	 * 個人情報第二グループのような、必須ではないが一つに値が入っていればほかのすべても入れておかないといけない場合のためのメソッド
 	 */
 	public ValidateOptional() {
-		const inputs = document.querySelectorAll(".validate_option");
+		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_option");
 		const optional = [];
-		let filledCount = 0; // 一つでも埋まっているかどうかをチェックするフラグ
+		let filledCount: number = 0; // 一つでも埋まっているかどうかをチェックするフラグ
 		// データ収集　オブジェクトの配列を作る
 		for (let i = 0; i < inputs.length; i++) {
-			const element = inputs[i];
+			const element: Element = inputs[i];
 			optional.push({
 				"id": element.id,
 				"method": element.getAttribute("data-validate-method"),
@@ -53,9 +53,9 @@ class InputValidator {
 		}
 	}
 	private gatherElements() {
-		const inputs = document.querySelectorAll(".validate_text");
+		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_text");
 		for (let i = 0; i < inputs.length; i++) {
-			const element = inputs[i];
+			const element: Element = inputs[i];
 			this.vObj.push({
 				"id": element.id, // バリデートエラー時にクラスを付与するために使用
 				"method": element.getAttribute("data-validate-method"),
@@ -65,7 +65,7 @@ class InputValidator {
 		}
 		// ラジオボタン、チェックボックスは未実装
 	}
-	private validate() {
+	private validate(): void {
 		for (let i = 0; i < this.vObj.length; i++) {
 			const element = this.vObj[i];
 			if (element.required) {
@@ -83,16 +83,16 @@ class InputValidator {
 			}
 		}
 	}
-	private basic(value: string) {
+	private basic(value: string): boolean {
 		return value !== "";
 	}
-	private postal(value: string) {
+	private postal(value: string): boolean {
 		return this.rePostal.test(value);
 	}
-	private tel(value: string) {
+	private tel(value: string): boolean {
 		return this.rePhone.test(value);
 	}
-	private mail(value: string) {
+	private mail(value: string): boolean {
 		return this.reMail.test(value);
 	}
 }
