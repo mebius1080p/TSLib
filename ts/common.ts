@@ -91,6 +91,7 @@ export async function ajaxFormAsync(url: string, formElm: HTMLFormElement, class
 			body: form,
 			credentials: "include",
 			method: "POST",
+			redirect: "manual",
 		});
 		disableButtonByClassName(classString);
 		const json = await fetchUtilJsonAsync(req);
