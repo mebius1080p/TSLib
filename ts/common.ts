@@ -3,13 +3,21 @@
  * @param response fetch レスポンス
  */
 function redirectChecker(response: Response): void {
+	// location ヘッダーによるリダイレクトチェック
+	if (response.type === "opaqueredirect" && response.url !== "") {
+		location.href = response.url; // リダイレクトが返ってきたのだから、再度ブラウザの移動で同じことをしてもリダイレクトする
+	}
+	// refresh ヘッダーによるリダイレクトチェック
+	if (!response.headers.has("refresh")) {
+		return; // 持ってなければここで終了
+	}
+	// location ヘッダーと同様に処理すれば簡単だが、ネットワークリクエストが余分に発生してしまう。
+	// とはいえこちらの方法でも計算が発生する……
 	const refresh: string = response.headers.get("refresh");
-	const reRedirect: RegExp = /^0;url=(.+)$/;
-	if (refresh !== null) {
-		if (reRedirect.test(refresh)) {
-			const result: RegExpMatchArray = refresh.match(reRedirect);
-			location.href = result[1];
-		}
+	const reRedirect: RegExp = /url=(.+)$/;
+	if (reRedirect.test(refresh)) {
+		const result: RegExpMatchArray = refresh.match(reRedirect);
+		location.href = result[1];
 	}
 }
 
