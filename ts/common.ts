@@ -79,12 +79,12 @@ export async function fetchUtilJsonAsync(request: Request): Promise<any> {
 
 /**
  * form 要素を ajax 通信で投げる関数
- * @param url ajax で通信する url
  * @param formElm ajax で送りつける form 要素
+ * @param url ajax で通信する url
  * @param classString ajax 通信中に無効にする要素に浸けたクラス名
  * @return {*} js オブジェクト
  */
-export async function ajaxFormAsync(url: string, formElm: HTMLFormElement, classString: string) {
+export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, classString: string) {
 	try {
 		const form: FormData = new FormData(formElm);
 		const req: Request = new Request(url, {
