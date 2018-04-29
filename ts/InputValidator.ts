@@ -21,7 +21,7 @@ class InputValidator {
 	/**
 	 * 個人情報第二グループのような、必須ではないが一つに値が入っていればほかのすべても入れておかないといけない場合のためのメソッド
 	 */
-	public ValidateOptional() {
+	public ValidateOptional(): void {
 		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_option");
 		const optional = [];
 		let filledCount: number = 0; // 一つでも埋まっているかどうかをチェックするフラグ
@@ -52,7 +52,10 @@ class InputValidator {
 			}
 		}
 	}
-	private gatherElements() {
+	/**
+	 * バリデートする input の要素から情報を集めるメソッド
+	 */
+	private gatherElements(): void {
 		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_text");
 		for (let i = 0; i < inputs.length; i++) {
 			const element: Element = inputs[i];
@@ -65,6 +68,9 @@ class InputValidator {
 		}
 		// ラジオボタン、チェックボックスは未実装
 	}
+	/**
+	 * バリデートを行うメソッド
+	 */
 	private validate(): void {
 		for (let i = 0; i < this.vObj.length; i++) {
 			const element = this.vObj[i];
@@ -83,15 +89,35 @@ class InputValidator {
 			}
 		}
 	}
+	/**
+	 * 値が空文字でないかチェックするメソッド
+	 * @param {string} value バリデートする文字列
+	 * @return {boolean} 値が空文字だったら false
+	 */
 	private basic(value: string): boolean {
 		return value !== "";
 	}
+	/**
+	 * 値が 7 桁の数値化田舎をチェックする ハイフン未対応
+	 * @param {string} value バリデートする文字列
+	 * @returns {boolean} 半角 7 桁の数値かどうかのフラグ
+	 */
 	private postal(value: string): boolean {
 		return this.rePostal.test(value);
 	}
+	/**
+	 * 半角数字で始まり、半角数値かハイフンがあり、半角数値で終わる文字かどうかをチェック
+	 * @param {string} value バリデートする文字列
+	 * @returns {boolean} 値が電話番号らしきものかどうかのフラグ
+	 */
 	private tel(value: string): boolean {
 		return this.rePhone.test(value);
 	}
+	/**
+	 * 文字列がメールアドレスかどうかをチェックするメソッド 非常に簡易的
+	 * @param {string} value バリデートする文字列
+	 * @returns {boolean} 文字列がメールアドレスかどうかのフラグ
+	 */
 	private mail(value: string): boolean {
 		return this.reMail.test(value);
 	}

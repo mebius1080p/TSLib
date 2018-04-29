@@ -36,13 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 function redirectChecker(response) {
+    if (response.type === "opaqueredirect" && response.url !== "") {
+        location.href = response.url;
+    }
+    if (!response.headers.has("refresh")) {
+        return;
+    }
     var refresh = response.headers.get("refresh");
-    var reRedirect = /^0;url=(.+)$/;
-    if (refresh !== null) {
-        if (reRedirect.test(refresh)) {
-            var result = refresh.match(reRedirect);
-            location.href = result[1];
-        }
+    var reRedirect = /url=(.+)$/;
+    if (reRedirect.test(refresh)) {
+        var result = refresh.match(reRedirect);
+        location.href = result[1];
     }
 }
 function fireEventById(targetid, eventname, data) {
@@ -98,6 +102,36 @@ function fetchUtilJsonAsync(request) {
     });
 }
 exports.fetchUtilJsonAsync = fetchUtilJsonAsync;
+function ajaxFormAsync(formElm, url, classString) {
+    return __awaiter(this, void 0, void 0, function () {
+        var form, req, json, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    form = new FormData(formElm);
+                    req = new Request(url, {
+                        body: form,
+                        credentials: "include",
+                        method: "POST",
+                        redirect: "manual",
+                    });
+                    disableButtonByClassName(classString);
+                    return [4, fetchUtilJsonAsync(req)];
+                case 1:
+                    json = _a.sent();
+                    enableButtonByClassName(classString);
+                    return [2, json];
+                case 2:
+                    error_1 = _a.sent();
+                    enableButtonByClassName(classString);
+                    throw error_1;
+                case 3: return [2];
+            }
+        });
+    });
+}
+exports.ajaxFormAsync = ajaxFormAsync;
 function disableButtonByClassName(className) {
     var buttons = document.querySelectorAll("." + className);
     Array.prototype.forEach.call(buttons, function (btn) {

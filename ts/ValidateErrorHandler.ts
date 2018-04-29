@@ -11,7 +11,10 @@ class ValidateErrorHandler {
 		this.target = eventTarget;
 		this.setEvent();
 	}
-	private setEvent() {
+	/**
+	 * イベントセットするメソッド
+	 */
+	private setEvent(): void {
 		document.getElementById(this.target).addEventListener("onerror", e => {
 			const errorList = (<any>e).detail;
 			for (let i = 0; i < errorList.length; i++) {

@@ -1,4 +1,3 @@
-"use strict";
 /**
  * コンストラクタに指定した id の要素以下で、resetable というクラスを持つ要素をリセットさせるクラス
  * form 要素で囲んで reset メソッドを呼ぶのが一番だが、一部だけ選択的にリセットしたい場合などに便利
@@ -11,7 +10,7 @@ class FormResetter {
 	/**
 	 * リセットメソッド
 	 */
-	public Reset() {
+	public Reset(): void {
 		const resetElm = document.getElementById(this.id).querySelectorAll(".resetable");
 		for (let i = 0; i < resetElm.length; i++) {
 			const element = resetElm[i];

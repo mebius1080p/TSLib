@@ -1,6 +1,6 @@
 /**
  * fetch 時のレスポンスでリダイレクトが帰ってきたときのための関数
- * @param response fetch レスポンス
+ * @param {Response} response fetch レスポンス
  */
 function redirectChecker(response: Response): void {
 	// location ヘッダーによるリダイレクトチェック
@@ -23,19 +23,19 @@ function redirectChecker(response: Response): void {
 
 /**
  * イベントを発生させる関数
- * @param targetid イベントを発生させる要素の id
- * @param eventname イベント名
- * @param data イベントで転送するデータ
+ * @param {string} targetid イベントを発生させる要素の id
+ * @param {string} eventname イベント名
+ * @param {object} data イベントで転送するデータ
  */
-export function fireEventById(targetid: string, eventname: string, data: object) {
+export function fireEventById(targetid: string, eventname: string, data: object): void {
 	const evt = document.createEvent("CustomEvent");
 	evt.initCustomEvent(eventname, false, false, data);
 	document.getElementById(targetid).dispatchEvent(evt);
 }
 /**
  * いつもの json を受け取る便利関数
- * @param request Request オブジェクト
- * @return promise を返す
+ * @param {Request} request Request オブジェクト
+ * @return {Promise<object>} promise object
  */
 export function fetchUtilJson(request: Request): Promise<object> {
 	return fetch(request).then(response => {
@@ -60,9 +60,9 @@ export function fetchUtilJson(request: Request): Promise<object> {
 
 /**
  * fetchUtilJson の async/await バージョン。行数は短い
- * @param request リクエスト
- * @return Promise<any> プロミス。return で返した値が Promise にくるまれて返される
- * @throws any 通信エラー、ステータス bad などで例外
+ * @param {Request} request リクエスト
+ * @return {Promise<any>} プロミスオブジェクト
+ * @throws {*} 通信エラー、ステータス bad などで例外
  */
 export async function fetchUtilJsonAsync(request: Request): Promise<any> {
 	const response: Response = await fetch(request);
@@ -79,12 +79,13 @@ export async function fetchUtilJsonAsync(request: Request): Promise<any> {
 
 /**
  * form 要素を ajax 通信で投げる関数
- * @param formElm ajax で送りつける form 要素
- * @param url ajax で通信する url
- * @param classString ajax 通信中に無効にする要素に浸けたクラス名
- * @return {*} js オブジェクト
+ * @param {HTMLFormElement} formElm ajax で送りつける form 要素
+ * @param {string} url ajax で通信する url
+ * @param {string} classString ajax 通信中に無効にする要素につけたクラス名
+ * @return {Promise<any>} promise object
+ * @throws {*} 通信エラー、ステータス bad などで例外
  */
-export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, classString: string) {
+export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, classString: string): Promise<any> {
 	try {
 		const form: FormData = new FormData(formElm);
 		const req: Request = new Request(url, {
@@ -105,9 +106,9 @@ export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, class
 
 /**
  * クラスにつけた名前で要素を無効にする関数
- * @param className 無効にする要素につけたクラス名
+ * @param {string} className 無効にする要素につけたクラス名
  */
-export function disableButtonByClassName(className: string) {
+export function disableButtonByClassName(className: string): void {
 	const buttons: NodeListOf<Element> = document.querySelectorAll("." + className);
 	Array.prototype.forEach.call(buttons, btn => {
 		btn.disabled = true;
@@ -116,9 +117,9 @@ export function disableButtonByClassName(className: string) {
 
 /**
  * クラスにつけた名前で要素を有効にする関数
- * @param className 有効にする要素につけたクラス名
+ * @param {string} className 有効にする要素につけたクラス名
  */
-export function enableButtonByClassName(className: string) {
+export function enableButtonByClassName(className: string): void {
 	const buttons: NodeListOf<Element> = document.querySelectorAll("." + className);
 	Array.prototype.forEach.call(buttons, btn => {
 		btn.disabled = false;

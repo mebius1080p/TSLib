@@ -7,7 +7,7 @@ class AutoInputFixer {
 	constructor() {
 		this.setEvent();
 	}
-	private setEvent() {
+	private setEvent(): void {
 		const inputs = document.querySelectorAll(".auto_fix");
 		for (let i = 0; i < inputs.length; i++) {
 			const element = inputs[i];
