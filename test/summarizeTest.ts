@@ -1,18 +1,19 @@
 "use strict";
-const assert = require("assert");
-const summarize = require("../dist/summarize");
+import { assert } from "../node_modules/chai/lib/chai.js";
+import { describe, it } from "../node_modules/mocha/index.js";
+import { summarize, summarize2, summarizeType } from "../ts/summarize";
 
 describe("summarize test1", () => {
 	it("シンプルソート", () => {
 		const array = ["abc", "xyz", "hoge"];
-		const result = summarize.summarize(array);
+		const result = summarize(array);
 		assert.equal("abc", result[0]);
 		assert.equal("hoge", result[1]);
 		assert.equal("xyz", result[2]);
 	});
 	it("数量ソート昇順", () => {
 		const array = ["abc", "xyz", "hoge", "abc", "fuga", "xyz", "abc"];
-		const result = summarize.summarize2(array, summarize.summarizeType.Ascending);
+		const result = summarize2(array, summarizeType.Ascending);
 		const expectArray = [
 			{ "str": "hoge", "len": 1 },
 			{ "str": "fuga", "len": 1 },
@@ -30,7 +31,7 @@ describe("summarize test1", () => {
 	});
 	it("数量ソート降順", () => {
 		const array = ["abc", "xyz", "hoge", "abc", "fuga", "xyz", "abc"];
-		const result = summarize.summarize2(array, summarize.summarizeType.Descending);
+		const result = summarize2(array, summarizeType.Descending);
 		const expectArray = [
 			{ "str": "abc", "len": 3 },
 			{ "str": "xyz", "len": 2 },
@@ -48,7 +49,7 @@ describe("summarize test1", () => {
 	});
 	it("文字列ソート昇順", () => {
 		const array = ["abc", "xyz", "hoge", "abc", "fuga", "xyz", "abc", "ABC"];
-		const result = summarize.summarize2(array, summarize.summarizeType.SortByStr);
+		const result = summarize2(array, summarizeType.SortByStr);
 		const expectArray = [
 			{ "str": "abc", "len": 3 },
 			{ "str": "ABC", "len": 1 },
