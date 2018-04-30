@@ -3,7 +3,7 @@
  * バリデートしたい要素に特定の属性やクラスを付与することで自動バリデートを行うクラス
  */
 class InputValidator {
-	private vObj: Array<{ "id": string, "value": string, "method": string, "required": boolean }>;
+	private vObj: validatorObj[];
 	private errorIds: string[] = [];
 	private reMail = /.+@.+/; // 簡易メアドチェック
 	private rePostal = /^[0-9]{7}$/;
@@ -24,7 +24,7 @@ class InputValidator {
 	public ValidateOptional(): void {
 		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_option");
 		const optional = [];
-		let filledCount: number = 0; // 一つでも埋まっているかどうかをチェックするフラグ
+		let filledCount: number = 0; // 一つでも埋まっているかどうかをチェックするカウンター
 		// データ収集　オブジェクトの配列を作る
 		for (let i = 0; i < inputs.length; i++) {
 			const element: Element = inputs[i];
