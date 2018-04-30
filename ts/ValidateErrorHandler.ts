@@ -16,7 +16,7 @@ class ValidateErrorHandler {
 	 */
 	private setEvent(): void {
 		document.getElementById(this.target).addEventListener("onerror", e => {
-			const errorList = (<any>e).detail;
+			const errorList = (<CustomEvent>e).detail;
 			for (let i = 0; i < errorList.length; i++) {
 				const element = errorList[i];
 				document.getElementById(element).classList.add("lack_inp");
