@@ -6,8 +6,8 @@
 		"preserveConstEnums": true,
 		"noImplicitAny": false,
 		"noImplicitUseStrict": true,
-		"outDir": "./dist",
-		"rootDir": "./ts",
+		"outDir": "./src/dist",
+		"rootDir": "./src/ts",
 		"sourceMap": false,
 		"lib":[//promise のエラー回避のために必要
 			"dom",
@@ -16,7 +16,7 @@
 		]
 	},
 	"include": [
-		"ts/**/*",
-		"typings/**/*"
+		"src/ts/**/*",
+		"src/typings/**/*"
 	]
 }
