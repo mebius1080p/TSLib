@@ -98,7 +98,7 @@ class InputValidator {
 		return value !== "";
 	}
 	/**
-	 * 値が 7 桁の数値化田舎をチェックする ハイフン未対応
+	 * 値が 7 桁の数値か否かをチェックする ハイフン未対応
 	 * @param {string} value バリデートする文字列
 	 * @returns {boolean} 半角 7 桁の数値かどうかのフラグ
 	 */
