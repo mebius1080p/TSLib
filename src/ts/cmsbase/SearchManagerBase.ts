@@ -4,9 +4,9 @@ import { ajaxFormAsync, fireEventById } from "../common";
  * SearchManagerBase 検索部を担当する基本クラス
  */
 export class SearchManagerBase {
-	private idObj: idObj_base;
-	private urlObj: urlObj_base;
-	constructor(idObj: idObj_base, urlObj: urlObj_base) {
+	private idObj: id_search;
+	private urlObj: url_search;
+	constructor(idObj: id_search, urlObj: url_search) {
 		this.idObj = idObj;
 		this.urlObj = urlObj;
 		this.setEvent();
@@ -16,7 +16,7 @@ export class SearchManagerBase {
 		document.getElementById(this.idObj.search).addEventListener("click", async () => {
 			try {
 				const formElm: HTMLFormElement = <HTMLFormElement>document.getElementById(this.idObj.form);
-				const json = await ajaxFormAsync(formElm, this.urlObj.search, "switchable");
+				const json: json_obj_search = await ajaxFormAsync(formElm, this.urlObj.search, "switchable");
 				console.dir(json);
 
 				// イベントで転送

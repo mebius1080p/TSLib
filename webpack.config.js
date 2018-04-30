@@ -2,6 +2,7 @@ const path = require('path');
 module.exports = {
 	entry: {
 		"sample/async": './src/ts/sample/async.ts',
+		"pagingSample/index": "./src/ts/pagingSample/index.ts",
 	},
 	output: {
 		path: path.resolve(__dirname, ''),

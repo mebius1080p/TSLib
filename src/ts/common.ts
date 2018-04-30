@@ -61,16 +61,16 @@ export function fetchUtilJson(request: Request): Promise<object> {
 /**
  * fetchUtilJson の async/await バージョン。行数は短い
  * @param {Request} request リクエスト
- * @return {Promise<any>} プロミスオブジェクト
+ * @return {Promise<json_obj>} プロミスオブジェクト
  * @throws {*} 通信エラー、ステータス bad などで例外
  */
-export async function fetchUtilJsonAsync(request: Request): Promise<any> {
+export async function fetchUtilJsonAsync(request: Request): Promise<json_obj> {
 	const response: Response = await fetch(request);
 	redirectChecker(response);
 	if (!response.ok) {
 		throw response;
 	}
-	const json: any = await response.json();
+	const json: json_obj = await response.json();
 	if (json.status !== "ok") {
 		throw json;
 	}
@@ -82,10 +82,10 @@ export async function fetchUtilJsonAsync(request: Request): Promise<any> {
  * @param {HTMLFormElement} formElm ajax で送りつける form 要素
  * @param {string} url ajax で通信する url
  * @param {string} classString ajax 通信中に無効にする要素につけたクラス名
- * @return {Promise<any>} promise object
+ * @return {Promise<json_obj>} promise object
  * @throws {*} 通信エラー、ステータス bad などで例外
  */
-export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, classString: string): Promise<any> {
+export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, classString: string): Promise<json_obj> {
 	try {
 		const form: FormData = new FormData(formElm);
 		const req: Request = new Request(url, {

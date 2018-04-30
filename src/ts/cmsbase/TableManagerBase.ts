@@ -3,8 +3,8 @@
  * 必ず継承して使用する
  */
 export abstract class TableManagerBase {
-	private idObj: idObj_base;
-	constructor(idObj: idObj_base) {
+	private idObj: id_search;
+	constructor(idObj: id_search) {
 		this.idObj = idObj;
 		this.setEvent();
 	}
@@ -18,7 +18,7 @@ export abstract class TableManagerBase {
 	 */
 	private setEvent(): void {
 		document.getElementById(this.idObj.table).addEventListener("onsearch", e => {
-			const data = (<CustomEvent>e).detail;
+			const data: paring_search_result = <paring_search_result>(<CustomEvent>e).detail;
 			this.applyToTable(data.data);
 		}, false);
 	}
