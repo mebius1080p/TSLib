@@ -21,6 +21,14 @@ interface id_search_base extends id_paging {
 	"template": string,
 }
 
+// 詳細ページ用
+interface id_detail {
+	"form": string,
+	"commit": string,
+	"delete": string,
+	"cancel": string,
+}
+
 // url 系
 //検索・一覧ページ用
 interface url_search {
@@ -62,6 +70,6 @@ interface pagingNumber {
 	"hasNext": boolean,
 }
 
-interface pagingRequest{
+interface pagingRequest {
 	"page": number
 }
