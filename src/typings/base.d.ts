@@ -61,3 +61,7 @@ interface pagingNumber {
 	"hasPrev": boolean,
 	"hasNext": boolean,
 }
+
+interface pagingRequest{
+	"page": number
+}

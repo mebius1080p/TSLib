@@ -53,6 +53,24 @@ export class PagingManager {
 		}
 		return result;
 	}
+	/**
+	 * calcPrevNextPage ページング部の数値でないところをクリックしてページ移動するとき、
+	 * 次に行くべきページ数を計算するメソッド
+	 * @param {number} page 現在のページ数
+	 * @param {number} totalpage 全ページ数
+	 * @param {number} addNumber 現在のページ数に加算する数 (-10, -1, 1, 10 のどれか)
+	 */
+	public static calcPrevNextPage(page: number, totalpage: number, addNumber: number): number {
+		let requestPage: number = 1;
+		requestPage = page + addNumber; // とりあえず加算
+		if (requestPage <= 0) {// 0 以下は 1 に修正
+			requestPage = 1;
+		}
+		if (requestPage > totalpage) {// total をオーバーしていたら total に修正
+			requestPage = totalpage;
+		}
+		return requestPage;
+	}
 	private current: number = 1; // 現在のページ
 	private totalPage: number = 1; // 全ページ数(最大値)
 	private pagingBase: HTMLUListElement;
@@ -60,6 +78,7 @@ export class PagingManager {
 	private pagingOpen: NodeListOf<HTMLElement>;
 	private pagingClose: NodeListOf<HTMLElement>;
 	private idObj: id_paging;
+	private pagingNumberObj: pagingNumber;
 	constructor(idObj: id_paging) {
 		this.idObj = idObj;
 
@@ -96,20 +115,15 @@ export class PagingManager {
 			if (!clickedElm.classList.contains("page-link")) {
 				return;
 			}
-			const sendObj = {
+			const sendObj: pagingRequest = {
 				"page": 1,
 			};
 			if (clickedElm.classList.contains("isnum")) {
 				sendObj.page = Number(clickedElm.textContent);
 			} else {
 				const addpage: number = Number(clickedElm.getAttribute("data-add"));
-				sendObj.page = this.current + addpage;
-				if (sendObj.page <= 0 || sendObj.page > this.totalPage) {
-					// 一応制限は掛ける
-					return;
-				}
+				sendObj.page = PagingManager.calcPrevNextPage(this.current, this.totalPage, addpage);
 			}
-			this.current = sendObj.page;
 			// active クラスの付け替えはしない 検索動作で再びページング部分が描画されるため
 			fireEventById(this.idObj.form, "searchrequest", sendObj);
 		}, false);
@@ -128,19 +142,19 @@ export class PagingManager {
 		const frag: DocumentFragment = document.createDocumentFragment();
 
 		// ページング計算
-		const pagingNumber: pagingNumber = PagingManager.calcPagingNumber(data.page, data.totalpage);
+		this.pagingNumberObj = PagingManager.calcPagingNumber(data.page, data.totalpage);
 
 		// open を足す
 		Array.prototype.forEach.call(this.pagingOpen, li => {
 			const clone: HTMLElement = <HTMLElement>li.cloneNode(true);
-			if (!pagingNumber.hasPrev) {
+			if (!this.pagingNumberObj.hasPrev) {
 				clone.classList.add("disabled");
 			}
 			frag.appendChild(clone);
 		});
 
 		// 中間を足す (少なくとも一つは足される)
-		for (let pageIndex = pagingNumber.open; pageIndex <= pagingNumber.close; pageIndex++) {
+		for (let pageIndex = this.pagingNumberObj.open; pageIndex <= this.pagingNumberObj.close; pageIndex++) {
 			const clone: HTMLElement = <HTMLElement>this.pagingFragment.cloneNode(true);
 			clone.querySelector("a").textContent = pageIndex.toString();
 			if (pageIndex === data.page) {
@@ -152,7 +166,7 @@ export class PagingManager {
 		// close を足す
 		Array.prototype.forEach.call(this.pagingClose, li => {
 			const clone: HTMLElement = <HTMLElement>li.cloneNode(true);
-			if (!pagingNumber.hasNext) {
+			if (!this.pagingNumberObj.hasNext) {
 				clone.classList.add("disabled");
 			}
 			frag.appendChild(clone);

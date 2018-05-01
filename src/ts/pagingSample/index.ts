@@ -10,15 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		"total": 3,
 		"totalpage": 1,
 	};
-	const idObj = {
-		"pageFragmentTemplate": "paging_fragment",
-		"pageTemplate": "paging_template",
-		"pageWrap": "paging_wrap",
-		"searchForm": "searchform",
-	};
 	const idObj2: idObj_sample = {
 		"base": {
-			"form": "form",
+			"form": "searchform",
 			"paging": "paging",
 			"pagingFragmentTemplate": "paging_fragment",
 			"pagingMisc": "paging_misc",
@@ -32,9 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			"template": "xxxxx",
 		},
 	};
-	const urlObj = {
-		"a": "b",
-	};
 	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".buttons button");
 	Array.prototype.forEach.call(buttons, btn => {
 		btn.addEventListener("click", e => {
@@ -47,7 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		}, false);
 	});
 	document.getElementById("searchform").addEventListener("searchrequest", e => {
-		(<HTMLElement>e.target).textContent = (<CustomEvent>e).detail.page;
+		const data: pagingRequest = <pagingRequest>(<CustomEvent>e).detail;
+		(<HTMLElement>e.target).querySelector("input").value = data.page.toString();
 	}, false);
 
 	const pm = new PagingManager(idObj2.base);

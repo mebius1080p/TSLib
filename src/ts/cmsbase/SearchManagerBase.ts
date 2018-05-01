@@ -31,8 +31,8 @@ export class SearchManagerBase {
 		}, false);
 		// ページングクリックでの検索リクエスト
 		document.getElementById(this.idObj.form).addEventListener("searchrequest", e => {
-			const data = (<CustomEvent>e).detail;
-			(<HTMLInputElement>document.getElementById(this.idObj.form).querySelector("input[name=page]")).value = data.page;
+			const data: pagingRequest = <pagingRequest>(<CustomEvent>e).detail;
+			(<HTMLInputElement>document.getElementById(this.idObj.form).querySelector("input[name=page]")).value = data.page.toString();
 			document.getElementById(this.idObj.search).click();
 		}, false);
 	}
