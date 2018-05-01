@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			"pagingFragmentTemplate": "paging_fragment",
 			"pagingMisc": "paging_misc",
 			"pagingTemplate": "paging_template",
+			"pagingTemplateClose": "paging_template_close",
+			"pagingTemplateOpen": "paging_template_open",
 			"pagingWrap": "paging_wrap",
 			"reset": "xxxxxxxxx",
 			"search": "xxxxxxxxx",

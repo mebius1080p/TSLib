@@ -12,6 +12,8 @@ interface id_paging extends id_search {
 	"pagingWrap": string,
 	"pagingMisc": string,
 	"pagingTemplate": string,
+	"pagingTemplateOpen": string,
+	"pagingTemplateClose": string,
 	"pagingFragmentTemplate": string,
 }
 // 結果テーブル部
@@ -51,4 +53,11 @@ interface paring_search_result {
 	"perpage": number,
 	"totalpage": number,
 	"data": any[],
+}
+
+interface pagingNumber {
+	"open": number,
+	"close": number,
+	"hasPrev": boolean,
+	"hasNext": boolean,
 }
