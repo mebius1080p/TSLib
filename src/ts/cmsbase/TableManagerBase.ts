@@ -3,9 +3,12 @@
  * 必ず継承して使用する
  */
 export abstract class TableManagerBase {
-	private idObj: id_search;
-	constructor(idObj: id_search) {
+	protected template: DocumentFragment;
+	private idObj: id_search_base;
+	constructor(idObj: id_search_base) {
 		this.idObj = idObj;
+		const content: DocumentFragment = (<HTMLTemplateElement>document.getElementById(this.idObj.template)).content;
+		this.template = document.importNode(content, true);
 		this.setEvent();
 	}
 	/**
@@ -19,7 +22,17 @@ export abstract class TableManagerBase {
 	private setEvent(): void {
 		document.getElementById(this.idObj.table).addEventListener("onsearch", e => {
 			const data: paring_search_result = <paring_search_result>(<CustomEvent>e).detail;
+			this.clearTable();
 			this.applyToTable(data.data);
 		}, false);
+	}
+	/**
+	 * 結果テーブルの中身をクリアするメソッド
+	 */
+	private clearTable(): void {
+		const tableElm: HTMLElement = document.getElementById(this.idObj.table);
+		while (tableElm.lastChild) {
+			tableElm.removeChild(tableElm.lastChild);
+		}
 	}
 }
