@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const total: string = thisElm.getAttribute("data-total");
 			baseEventData.totalpage = Number(total);
 			baseEventData.page = Number(page);
-			fireEventById("paging_wrap", "onsearch", baseEventData);
+			fireEventById("paging", "onsearch", baseEventData);
 		}, false);
 	});
 	document.getElementById("searchform").addEventListener("searchrequest", e => {

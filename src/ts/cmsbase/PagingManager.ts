@@ -101,7 +101,7 @@ export class PagingManager {
 		this.setEvent();
 	}
 	private setEvent(): void {
-		document.getElementById(this.idObj.pagingWrap).addEventListener("onsearch", e => {
+		document.getElementById(this.idObj.paging).addEventListener("onsearch", e => {
 			const data: paring_search_result = <paring_search_result>(<CustomEvent>e).detail;
 			console.dir(data);
 			this.current = data.page;
@@ -110,7 +110,7 @@ export class PagingManager {
 			this.buildMisc(data);
 		}, false);
 
-		document.getElementById(this.idObj.pagingWrap).addEventListener("click", e => {
+		document.getElementById(this.idObj.paging).addEventListener("click", e => {
 			const clickedElm: HTMLElement = <HTMLElement>e.target;
 			if (!clickedElm.classList.contains("page-link")) {
 				return;
