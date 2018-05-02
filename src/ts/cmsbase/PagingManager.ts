@@ -59,6 +59,7 @@ export class PagingManager {
 	 * @param {number} page 現在のページ数
 	 * @param {number} totalpage 全ページ数
 	 * @param {number} addNumber 現在のページ数に加算する数 (-10, -1, 1, 10 のどれか)
+	 * @returns {number} リクエストとして出すページ数の番号
 	 */
 	public static calcPrevNextPage(page: number, totalpage: number, addNumber: number): number {
 		let requestPage: number = 1;
