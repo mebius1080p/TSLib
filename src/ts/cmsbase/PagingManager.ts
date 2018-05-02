@@ -112,6 +112,7 @@ export class PagingManager {
 		}, false);
 
 		document.getElementById(this.idObj.paging).addEventListener("click", e => {
+			e.preventDefault();
 			const clickedElm: HTMLElement = <HTMLElement>e.target;
 			if (!clickedElm.classList.contains("page-link")) {
 				return;
