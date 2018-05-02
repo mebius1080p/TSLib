@@ -14,7 +14,9 @@ export class PagingManager {
 		const result: pagingNumber = {
 			"close": 1,
 			"hasNext": false,
+			"hasNextSibling": !(page === totalpage),
 			"hasPrev": false,
+			"hasPrevSibling": !(page === 1),
 			"open": 1,
 		};
 		const rest: number = page % 10;
@@ -147,13 +149,16 @@ export class PagingManager {
 		this.pagingNumberObj = PagingManager.calcPagingNumber(data.page, data.totalpage);
 
 		// open を足す
-		Array.prototype.forEach.call(this.pagingOpen, li => {
-			const clone: HTMLElement = <HTMLElement>li.cloneNode(true);
-			if (!this.pagingNumberObj.hasPrev) {
-				clone.classList.add("disabled");
-			}
-			frag.appendChild(clone);
-		});
+		const cloneOpen1: HTMLElement = <HTMLElement>this.pagingOpen[0].cloneNode(true);
+		if (!this.pagingNumberObj.hasPrev) {
+			cloneOpen1.classList.add("disabled");
+		}
+		frag.appendChild(cloneOpen1);
+		const cloneOpen2: HTMLElement = <HTMLElement>this.pagingOpen[1].cloneNode(true);
+		if (!this.pagingNumberObj.hasPrevSibling) {
+			cloneOpen2.classList.add("disabled");
+		}
+		frag.appendChild(cloneOpen2);
 
 		// 中間を足す (少なくとも一つは足される)
 		for (let pageIndex = this.pagingNumberObj.open; pageIndex <= this.pagingNumberObj.close; pageIndex++) {
@@ -166,13 +171,16 @@ export class PagingManager {
 		}
 
 		// close を足す
-		Array.prototype.forEach.call(this.pagingClose, li => {
-			const clone: HTMLElement = <HTMLElement>li.cloneNode(true);
-			if (!this.pagingNumberObj.hasNext) {
-				clone.classList.add("disabled");
-			}
-			frag.appendChild(clone);
-		});
+		const cloneClose1: HTMLElement = <HTMLElement>this.pagingClose[0].cloneNode(true);
+		if (!this.pagingNumberObj.hasNextSibling) {
+			cloneClose1.classList.add("disabled");
+		}
+		frag.appendChild(cloneClose1);
+		const cloneClose2: HTMLElement = <HTMLElement>this.pagingClose[1].cloneNode(true);
+		if (!this.pagingNumberObj.hasNext) {
+			cloneClose2.classList.add("disabled");
+		}
+		frag.appendChild(cloneClose2);
 
 		const pagingBaseClone: HTMLUListElement = <HTMLUListElement>this.pagingBase.cloneNode(true);
 		pagingBaseClone.appendChild(frag);

@@ -12,6 +12,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 3);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 未満 エッジ1", () => {
 		const page: number = 1;
@@ -21,6 +23,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 3);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, false);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 未満 エッジ2", () => {
 		const page: number = 3;
@@ -30,6 +34,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 3);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, false);
 	});
 	it("ちょうど 10 中間", () => {
 		const page: number = 3;
@@ -39,6 +45,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 10 エッジ1", () => {
 		const page: number = 1;
@@ -48,6 +56,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, false);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 10 エッジ2", () => {
 		const page: number = 10;
@@ -57,6 +67,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, false);
 	});
 	it("10 以上 中間1", () => {
 		const page: number = 2;
@@ -66,6 +78,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 以上 中間2", () => {
 		const page: number = 12;
@@ -75,6 +89,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 15);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 以上 エッジ1", () => {
 		const page: number = 1;
@@ -84,6 +100,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, false);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 以上 エッジ2", () => {
 		const page: number = 10;
@@ -93,6 +111,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 以上 エッジ3", () => {
 		const page: number = 11;
@@ -102,6 +122,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 15);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 以上 エッジ4", () => {
 		const page: number = 15;
@@ -111,6 +133,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 15);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, false);
 	});
 	it("10 以上 エッジ5", () => {
 		const page: number = 10;
@@ -120,6 +144,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("10 以上 エッジ5", () => {
 		const page: number = 11;
@@ -129,6 +155,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 11);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, false);
 	});
 	it("ちょうど 20 中間1", () => {
 		const page: number = 5;
@@ -138,6 +166,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 20 中間2", () => {
 		const page: number = 15;
@@ -147,6 +177,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 20);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 20 エッジ1", () => {
 		const page: number = 1;
@@ -156,6 +188,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, false);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 20 エッジ2", () => {
 		const page: number = 10;
@@ -165,6 +199,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 10);
 		assert.equal(result.hasPrev, false);
 		assert.equal(result.hasNext, true);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 20 エッジ3", () => {
 		const page: number = 11;
@@ -174,6 +210,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 20);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, true);
 	});
 	it("ちょうど 20 エッジ4", () => {
 		const page: number = 20;
@@ -183,6 +221,8 @@ describe("PagingManager テスト", () => {
 		assert.equal(result.close, 20);
 		assert.equal(result.hasPrev, true);
 		assert.equal(result.hasNext, false);
+		assert.equal(result.hasPrevSibling, true);
+		assert.equal(result.hasNextSibling, false);
 	});
 	// prev, next 用テスト
 	it("[prev/next] 10 未満 中間", () => {

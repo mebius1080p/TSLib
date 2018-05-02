@@ -68,6 +68,8 @@ interface pagingNumber {
 	"close": number,
 	"hasPrev": boolean,
 	"hasNext": boolean,
+	"hasPrevSibling": boolean,//直前ページ
+	"hasNextSibling": boolean,//直後ページ
 }
 
 interface pagingRequest {
