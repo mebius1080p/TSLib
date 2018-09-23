@@ -3,16 +3,17 @@
  * @param {Response} response fetch レスポンス
  */
 function redirectChecker(response: Response): void {
-	// location ヘッダーによるリダイレクトチェック
+	// http の location ヘッダーでリダイレクト指示があった場合
 	if (response.type === "opaqueredirect" && response.url !== "") {
 		location.href = response.url; // リダイレクトが返ってきたのだから、再度ブラウザの移動で同じことをしてもリダイレクトする
 	}
-	// refresh ヘッダーによるリダイレクトチェック
+	// http の refresh ヘッダーでリダイレクト指示があった場合
 	if (!response.headers.has("refresh")) {
 		return; // 持ってなければここで終了
 	}
-	// location ヘッダーと同様に処理すれば簡単だが、ネットワークリクエストが余分に発生してしまう。
-	// とはいえこちらの方法でも計算が発生する……
+	// location ヘッダーでのリダイレクト指示の場合と同様に処理すれば簡単だが、
+	// ネットワークリクエストが一つ余分に発生してしまう。
+	// RegExp による比較が発生するが、url を取り出して直接リダイレクト先にアクセスする
 	const refresh: string = response.headers.get("refresh");
 	const reRedirect: RegExp = /url=(.+)$/;
 	if (reRedirect.test(refresh)) {
@@ -22,7 +23,7 @@ function redirectChecker(response: Response): void {
 }
 
 /**
- * イベントを発生させる関数
+ * カスタムイベントを発生させて DOM 間でデータ転送するための関数
  * @param {string} targetid イベントを発生させる要素の id
  * @param {string} eventname イベント名
  * @param {object} data イベントで転送するデータ
@@ -33,7 +34,8 @@ export function fireEventById(targetid: string, eventname: string, data: object)
 	document.getElementById(targetid).dispatchEvent(evt);
 }
 /**
- * いつもの json を受け取る便利関数
+ * いつもの json を受け取る便利関数 旧バージョン
+ * @deprecated
  * @param {Request} request Request オブジェクト
  * @return {Promise<object>} promise object
  */
@@ -102,6 +104,52 @@ export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, class
 		enableButtonByClassName(classString);
 		throw error;
 	}
+}
+
+/**
+ * json レスポンス用のオブジェクトインターフェース
+ * data の中身は型引数で指定する
+ */
+export interface IJsonObj<T> {
+	status: string;
+	data: T;
+	message: string;
+}
+
+/**
+ * fetchJsonObjAsync 用の引数インターフェース
+ */
+export interface ISimpleFetchOption {
+	url: string;
+	body?: BodyInit;
+	method?: "GET" | "POST";
+}
+
+/**
+ * JsonObj を fetch する関数
+ * @param fetchOption fetch オプション
+ * @returns {Promise<IJsonObj<T>>}
+ */
+export async function fetchJsonObjAsync<T>(fetchOption: ISimpleFetchOption): Promise<IJsonObj<T>> {
+	const reqOption: RequestInit = {
+		credentials: "include",
+		method: fetchOption.method || "GET",
+		redirect: "manual",
+	};
+	if ("body" in fetchOption) {
+		reqOption.body = fetchOption.body;
+	}
+	const req: Request = new Request(fetchOption.url, reqOption);
+	const response: Response = await fetch(req);
+	redirectChecker(response);
+	if (!response.ok) {
+		throw response;
+	}
+	const json: IJsonObj<T> = await response.json();
+	if (json.status !== "ok") {
+		throw json;
+	}
+	return json;
 }
 
 /**
