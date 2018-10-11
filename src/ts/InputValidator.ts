@@ -1,11 +1,11 @@
-import { validatorObj } from "../typings/tslib";
+import { IValidatorObj } from "../typings/tslib";
 
 /**
  * InputValidator
  * バリデートしたい要素に特定の属性やクラスを付与することで自動バリデートを行うクラス
  */
 class InputValidator {
-	private vObj: validatorObj[];
+	private vObj: IValidatorObj[];
 	private errorIds: string[] = [];
 	private reMail = /.+@.+/; // 簡易メアドチェック
 	private rePostal = /^[0-9]{7}$/;

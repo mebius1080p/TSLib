@@ -1,4 +1,4 @@
-export interface validatorObj {
+export interface IValidatorObj {
 	"id": string;
 	"value": string;
 	"method": string;
