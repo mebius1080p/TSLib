@@ -1,3 +1,5 @@
+import { json_obj } from "../typings/base";
+
 /**
  * fetch 時のレスポンスでリダイレクトが帰ってきたときのための関数
  * @param {Response} response fetch レスポンス

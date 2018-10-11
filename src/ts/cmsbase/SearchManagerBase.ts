@@ -1,3 +1,4 @@
+import { id_search, json_obj_search, pagingRequest, url_search } from "../../typings/base";
 import { ajaxFormAsync, fireEventById } from "../common";
 
 /**

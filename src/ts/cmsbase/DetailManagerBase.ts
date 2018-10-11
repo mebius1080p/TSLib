@@ -1,3 +1,4 @@
+import { id_detail, json_obj, url_detail } from "../../typings/base";
 import { ajaxFormAsync } from "../common";
 
 /**

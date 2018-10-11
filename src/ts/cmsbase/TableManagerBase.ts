@@ -1,3 +1,5 @@
+import { id_search_base, paring_search_result } from "../../typings/base";
+
 /**
  * TableManagerBase 検索結果テーブルを担当する基礎クラス
  * 必ず継承して使用する

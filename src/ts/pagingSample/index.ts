@@ -1,4 +1,5 @@
 "use strict";
+import { pagingRequest } from "../../typings/base";
 import { PagingManager } from "../cmsbase/PagingManager";
 import { fireEventById } from "../common";
 

@@ -1,6 +1,6 @@
 // id セクション
 // 検索部
-interface id_search {
+export interface id_search {
 	"form": string,
 	"search": string,
 	"reset": string,
@@ -8,7 +8,7 @@ interface id_search {
 	"paging": string,//イベント転送用
 }
 // ページング部
-interface id_paging extends id_search {
+export interface id_paging extends id_search {
 	"pagingWrap": string,
 	"pagingMisc": string,
 	"pagingTemplate": string,
@@ -17,12 +17,12 @@ interface id_paging extends id_search {
 	"pagingFragmentTemplate": string,
 }
 // 結果テーブル部
-interface id_search_base extends id_paging {
+export interface id_search_base extends id_paging {
 	"template": string,
 }
 
 // 詳細ページ用
-interface id_detail {
+export interface id_detail {
 	"form": string,
 	"commit": string,
 	"delete": string,
@@ -31,31 +31,31 @@ interface id_detail {
 
 // url 系
 //検索・一覧ページ用
-interface url_search {
+export interface url_search {
 	"search": string,
 }
 //詳細ページ用
-interface url_detail {
+export interface url_detail {
 	"commit": string,
 	"cancel": string,
 	"delete": string,
 }
 
 //jsonobj のインターフェース (ajax で受け取るデータ構造)
-interface json_obj {
+export interface json_obj {
 	"status": string,
 	"message": string,
 	"data": any,
 }
 //jsonobj のインターフェース (ajax で受け取るデータ構造 検索時版)
-interface json_obj_search {
+export interface json_obj_search {
 	"status": string,
 	"message": string,
 	"data": paring_search_result,
 }
 
 //pagingSearchResult のインターフェース
-interface paring_search_result {
+export interface paring_search_result {
 	"total": number,
 	"page": number,
 	"perpage": number,
@@ -63,7 +63,7 @@ interface paring_search_result {
 	"data": any[],
 }
 
-interface pagingNumber {
+export interface pagingNumber {
 	"open": number,
 	"close": number,
 	"hasPrev": boolean,
@@ -72,6 +72,6 @@ interface pagingNumber {
 	"hasNextSibling": boolean,//直後ページ
 }
 
-interface pagingRequest {
+export interface pagingRequest {
 	"page": number
 }

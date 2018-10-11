@@ -1,3 +1,4 @@
+import { id_paging, pagingNumber, pagingRequest, paring_search_result } from "../../typings/base";
 import { fireEventById } from "../common";
 
 /**
