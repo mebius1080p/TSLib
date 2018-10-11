@@ -1,3 +1,5 @@
+import { validatorObj } from "../typings/tslib";
+
 /**
  * InputValidator
  * バリデートしたい要素に特定の属性やクラスを付与することで自動バリデートを行うクラス

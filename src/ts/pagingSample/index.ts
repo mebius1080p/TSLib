@@ -1,5 +1,6 @@
 "use strict";
 import { pagingRequest } from "../../typings/base";
+import { idObj_sample } from "../../typings/forPaging";
 import { PagingManager } from "../cmsbase/PagingManager";
 import { fireEventById } from "../common";
 

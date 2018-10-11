@@ -1,6 +1,6 @@
-type validatorObj = {
-	"id": string,
-	"value": string,
-	"method": string,
-	"required": boolean,
-};
+export interface validatorObj {
+	"id": string;
+	"value": string;
+	"method": string;
+	"required": boolean;
+}
