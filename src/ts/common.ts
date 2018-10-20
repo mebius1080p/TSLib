@@ -170,13 +170,11 @@ export async function fetchJsonObjAsync<T>(fetchOption: ISimpleFetchOption): Pro
  * @param {string} className 無効にする要素につけたクラス名
  */
 export function disableButtonByClassName(className: string): void {
+	forEachPolyfill();
 	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll("." + className);
 	buttons.forEach(button => {
 		button.disabled = true;
 	});
-	// Array.prototype.forEach.call(buttons, btn => {
-	// 	btn.disabled = true;
-	// });
 }
 
 /**
@@ -184,11 +182,24 @@ export function disableButtonByClassName(className: string): void {
  * @param {string} className 有効にする要素につけたクラス名
  */
 export function enableButtonByClassName(className: string): void {
+	forEachPolyfill();
 	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll("." + className);
 	buttons.forEach(button => {
-		button.disabled = true;
+		button.disabled = false;
 	});
-	// Array.prototype.forEach.call(buttons, btn => {
-	// 	btn.disabled = false;
-	// });
+}
+
+/**
+ * NodeList.forEach の polyfill
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
+ */
+function forEachPolyfill() {
+	if ("NodeList" in window && !NodeList.prototype.forEach) {
+		NodeList.prototype.forEach = function(callback, thisArg) {
+			thisArg = thisArg || window;
+			for (let i = 0; i < this.length; i++) {
+				callback.call(thisArg, this[i], i, this);
+			}
+		};
+	}
 }
