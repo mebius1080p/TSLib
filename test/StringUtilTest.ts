@@ -1,6 +1,6 @@
 "use strict";
-import { assert } from "../node_modules/chai/lib/chai.js";
-import { describe, it } from "../node_modules/mocha/index.js";
+import { assert } from "chai";
+import { describe, it } from "mocha";
 import { StringUtil } from "../src/ts/StringUtil";
 
 describe("StringUtil test", () => {

@@ -16,10 +16,16 @@ function redirectChecker(response: Response): void {
 	// location ヘッダーでのリダイレクト指示の場合と同様に処理すれば簡単だが、
 	// ネットワークリクエストが一つ余分に発生してしまう。
 	// RegExp による比較が発生するが、url を取り出して直接リダイレクト先にアクセスする
-	const refresh: string = response.headers.get("refresh");
+	const refresh: string | null = response.headers.get("refresh");
+	if (refresh === null) {
+		return;
+	}
 	const reRedirect: RegExp = /url=(.+)$/;
 	if (reRedirect.test(refresh)) {
-		const result: RegExpMatchArray = refresh.match(reRedirect);
+		const result: RegExpMatchArray | null = refresh.match(reRedirect);
+		if (result === null) {
+			return;
+		}
 		location.href = result[1];
 	}
 }
@@ -29,11 +35,16 @@ function redirectChecker(response: Response): void {
  * @param {string} targetid イベントを発生させる要素の id
  * @param {string} eventname イベント名
  * @param {object} data イベントで転送するデータ
+ * @throws {Error} 転送先要素がないときエラー
  */
 export function fireEventById(targetid: string, eventname: string, data: object): void {
 	const evt = document.createEvent("CustomEvent");
 	evt.initCustomEvent(eventname, false, false, data);
-	document.getElementById(targetid).dispatchEvent(evt);
+	const targetElm: HTMLElement | null = document.getElementById(targetid);
+	if (targetElm === null) {
+		throw new Error("mandatory element not found");
+	}
+	targetElm.dispatchEvent(evt);
 }
 /**
  * いつもの json を受け取る便利関数 旧バージョン
@@ -159,10 +170,13 @@ export async function fetchJsonObjAsync<T>(fetchOption: ISimpleFetchOption): Pro
  * @param {string} className 無効にする要素につけたクラス名
  */
 export function disableButtonByClassName(className: string): void {
-	const buttons: NodeListOf<Element> = document.querySelectorAll("." + className);
-	Array.prototype.forEach.call(buttons, btn => {
-		btn.disabled = true;
+	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll("." + className);
+	buttons.forEach(button => {
+		button.disabled = true;
 	});
+	// Array.prototype.forEach.call(buttons, btn => {
+	// 	btn.disabled = true;
+	// });
 }
 
 /**
@@ -170,8 +184,11 @@ export function disableButtonByClassName(className: string): void {
  * @param {string} className 有効にする要素につけたクラス名
  */
 export function enableButtonByClassName(className: string): void {
-	const buttons: NodeListOf<Element> = document.querySelectorAll("." + className);
-	Array.prototype.forEach.call(buttons, btn => {
-		btn.disabled = false;
+	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll("." + className);
+	buttons.forEach(button => {
+		button.disabled = true;
 	});
+	// Array.prototype.forEach.call(buttons, btn => {
+	// 	btn.disabled = false;
+	// });
 }

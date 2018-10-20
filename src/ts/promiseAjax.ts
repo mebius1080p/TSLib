@@ -1,6 +1,14 @@
 "use strict";
+
+interface IPromiseAjaxParam {
+	method: string;
+	url: string;
+	type: string;
+	data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null | undefined;
+}
+
 // customize function from "html5 rocks promise"
-export function promiseAjax(param) {
+export function promiseAjax(param: IPromiseAjaxParam) {
 	// Return a new promise.
 	return new Promise((resolve, reject) => {
 		// Do the usual XHR stuff
@@ -15,7 +23,11 @@ export function promiseAjax(param) {
 				// Resolve the promise with the response text
 				switch (param.type) {
 					case "xml":
-						resolve(req.responseXML);
+						if (req.responseXML === null) {
+							reject(req);
+						} else {
+							resolve(req.responseXML);
+						}
 						break;
 					case "json":
 						const json = JSON.parse(req.response);

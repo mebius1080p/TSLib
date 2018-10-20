@@ -14,9 +14,16 @@ export class SearchManagerBase {
 	}
 	private setEvent(): void {
 		// 検索ボタン
-		document.getElementById(this.idObj.search).addEventListener("click", async () => {
+		const searchElm = document.getElementById(this.idObj.search);
+		const formElm = <HTMLFormElement>document.getElementById(this.idObj.form);
+		if (searchElm === null) {
+			throw new Error("mandatory element not found");
+		}
+		if (formElm === null) {
+			throw new Error("mandatory element not found");
+		}
+		searchElm.addEventListener("click", async () => {
 			try {
-				const formElm: HTMLFormElement = <HTMLFormElement>document.getElementById(this.idObj.form);
 				const json: json_obj_search = await ajaxFormAsync(formElm, this.urlObj.search, "switchable");
 				console.dir(json);
 
@@ -31,10 +38,10 @@ export class SearchManagerBase {
 			}
 		}, false);
 		// ページングクリックでの検索リクエスト
-		document.getElementById(this.idObj.form).addEventListener("searchrequest", e => {
+		formElm.addEventListener("searchrequest", e => {
 			const data: pagingRequest = <pagingRequest>(<CustomEvent>e).detail;
-			(<HTMLInputElement>document.getElementById(this.idObj.form).querySelector("input[name=page]")).value = data.page.toString();
-			document.getElementById(this.idObj.search).click();
+			(<HTMLInputElement>formElm.querySelector("input[name=page]")).value = data.page.toString();
+			searchElm.click();
 		}, false);
 	}
 }

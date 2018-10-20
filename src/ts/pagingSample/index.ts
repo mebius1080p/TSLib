@@ -29,19 +29,26 @@ document.addEventListener("DOMContentLoaded", () => {
 		},
 	};
 	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".buttons button");
-	Array.prototype.forEach.call(buttons, btn => {
-		btn.addEventListener("click", e => {
+	buttons.forEach(button => {
+		button.addEventListener("click", e => {
 			const thisElm: HTMLElement = <HTMLElement>e.target;
-			const page: string = thisElm.getAttribute("data-page");
-			const total: string = thisElm.getAttribute("data-total");
+			const page: string = thisElm.getAttribute("data-page") || "";
+			const total: string = thisElm.getAttribute("data-total") || "";
 			baseEventData.totalpage = Number(total);
 			baseEventData.page = Number(page);
 			fireEventById("paging", "onsearch", baseEventData);
 		}, false);
 	});
-	document.getElementById("searchform").addEventListener("searchrequest", e => {
+	const searchFormElm = document.getElementById("searchform");
+	if (searchFormElm === null) {
+		throw new Error("mandatory element not found");
+	}
+	searchFormElm.addEventListener("searchrequest", e => {
 		const data: pagingRequest = <pagingRequest>(<CustomEvent>e).detail;
-		(<HTMLElement>e.target).querySelector("input").value = data.page.toString();
+		const inputElm = (<HTMLElement>e.target).querySelector("input");
+		if (inputElm !== null) {
+			inputElm.value = data.page.toString();
+		}
 	}, false);
 
 	const pm = new PagingManager(idObj2.base);

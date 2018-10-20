@@ -1,11 +1,16 @@
 "use strict";
+
+interface ISummarizeTempObject {
+	[str: string]: boolean;
+}
+
 /**
  * 引数の単純配列を、重複を排除してソートして返す関数
  * @param {string[]} aArray 単純配列
  * @return {string[]} 重複が排除され、ソートされた配列
  */
 export function summarize(aArray: string[]): string[] {
-	const tempObj = {};
+	const tempObj: ISummarizeTempObject = {};
 	for (let i = 0, len = aArray.length; i < len; i++) {
 		tempObj[aArray[i]] = true;
 	}
@@ -17,15 +22,25 @@ export enum summarizeType {
 	Descending = 2,
 	SortByStr = 3,
 }
+
+interface ISummarizeObj {
+	len: number;
+	str: string;
+}
+
+interface ISummarize2TempObject {
+	[str: string]: number;
+}
+
 /**
  * 単純配列をソートして、その出現回数を len プロパティとして保持するオブジェクトを返す関数
  * 返すのは [{len:5,str:xx},{len:7,str:bb},{len:8,str:ww}] のような配列
  * @param {string[]} aArray 単純配列
  * @param {summarizeType} aMode ソートモード 上の summarizeType を参照
- * @return {{"len":number, "str":string}[]} オブジェクト配列
+ * @return {ISummarizeObj} オブジェクト配列
  */
-export function summarize2(aArray: string[], aMode: summarizeType): Array<{ "len": number, "str": string }> {
-	const tempObj = {};
+export function summarize2(aArray: string[], aMode: summarizeType): ISummarizeObj[] {
+	const tempObj: ISummarize2TempObject = {};
 	for (let i = 0, len = aArray.length; i < len; i++) {
 		if (tempObj[aArray[i]] === undefined) {
 			tempObj[aArray[i]] = 1;
@@ -33,11 +48,11 @@ export function summarize2(aArray: string[], aMode: summarizeType): Array<{ "len
 			tempObj[aArray[i]]++;
 		}
 	}
-	const nar = [];
-	const tempAr = Object.keys(tempObj);
-	let ret = [];
+	const nar: ISummarizeObj[] = [];
+	const tempAr: string[] = Object.keys(tempObj);
+	let ret: ISummarizeObj[] = [];
 	for (let i = 0, len = tempAr.length; i < len; i++) {
-		nar[nar.length] = { "str": tempAr[i], "len": tempObj[tempAr[i]] };
+		nar.push({ str: tempAr[i], len: tempObj[tempAr[i]] });
 	}
 	switch (aMode) {
 		case 1:

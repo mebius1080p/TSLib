@@ -15,21 +15,24 @@ export class DetailManagerBase {
 	}
 	private setEvent(): void {
 		// コミット
-		document.getElementById(this.idObj.commit).addEventListener("click", async () => {
-			try {
-				const formElm: HTMLFormElement = <HTMLFormElement>document.getElementById(this.idObj.form);
-				const json: json_obj = await ajaxFormAsync(formElm, this.urlObj.commit, "switchable");
-				alert("登録しました");
-			} catch (error) {
-				console.dir(error);
-				if ("message" in error) {
-					alert(error.message);
+		const commitBtn = document.getElementById(this.idObj.commit);
+		if (commitBtn !== null) {
+			commitBtn.addEventListener("click", async () => {
+				try {
+					const formElm: HTMLFormElement = <HTMLFormElement>document.getElementById(this.idObj.form);
+					const json: json_obj = await ajaxFormAsync(formElm, this.urlObj.commit, "switchable");
+					alert("登録しました");
+				} catch (error) {
+					console.dir(error);
+					if ("message" in error) {
+						alert(error.message);
+					}
 				}
-			}
-		}, false);
+			}, false);
+		}
 
 		// 削除
-		const deleteBtn: HTMLElement = document.getElementById(this.idObj.delete);
+		const deleteBtn: HTMLElement | null = document.getElementById(this.idObj.delete);
 		if (deleteBtn !== null) {
 			deleteBtn.addEventListener("click", async () => {
 				try {
@@ -47,7 +50,7 @@ export class DetailManagerBase {
 		}
 
 		// キャンセル
-		const cancelBtn: HTMLElement = document.getElementById(this.idObj.cancel);
+		const cancelBtn: HTMLElement | null = document.getElementById(this.idObj.cancel);
 		if (cancelBtn !== null) {
 			cancelBtn.addEventListener("click", () => {
 				location.href = this.urlObj.cancel;

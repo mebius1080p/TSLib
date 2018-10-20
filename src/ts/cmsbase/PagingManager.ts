@@ -77,8 +77,8 @@ export class PagingManager {
 	}
 	private current: number = 1; // 現在のページ
 	private totalPage: number = 1; // 全ページ数(最大値)
-	private pagingBase: HTMLUListElement;
-	private pagingFragment: HTMLLIElement;
+	private pagingBase: HTMLUListElement | null;
+	private pagingFragment: HTMLLIElement | null;
 	private pagingOpen: NodeListOf<HTMLElement>;
 	private pagingClose: NodeListOf<HTMLElement>;
 	private idObj: id_paging;
@@ -102,43 +102,57 @@ export class PagingManager {
 		const importedFrag: DocumentFragment = document.importNode(pageFrag, true);
 		this.pagingFragment = importedFrag.querySelector("li");
 
+		this.pagingNumberObj = {
+			"close": 0,
+			"hasNext": false,
+			"hasNextSibling": false,
+			"hasPrev": false,
+			"hasPrevSibling": false,
+			"open": 0,
+		};
+
 		this.setEvent();
 	}
 	private setEvent(): void {
-		document.getElementById(this.idObj.paging).addEventListener("onsearch", e => {
-			const data: paring_search_result = <paring_search_result>(<CustomEvent>e).detail;
-			console.dir(data);
-			this.current = data.page;
-			this.totalPage = data.totalpage;
-			this.buildPaging(data);
-			this.buildMisc(data);
-		}, false);
-
-		document.getElementById(this.idObj.paging).addEventListener("click", e => {
-			e.preventDefault();
-			const clickedElm: HTMLElement = <HTMLElement>e.target;
-			if (!clickedElm.classList.contains("page-link")) {
-				return;
-			}
-			const sendObj: pagingRequest = {
-				"page": 1,
-			};
-			if (clickedElm.classList.contains("isnum")) {
-				sendObj.page = Number(clickedElm.textContent);
-			} else {
-				const addpage: number = Number(clickedElm.getAttribute("data-add"));
-				sendObj.page = PagingManager.calcPrevNextPage(this.current, this.totalPage, addpage);
-			}
-			// active クラスの付け替えはしない 検索動作で再びページング部分が描画されるため
-			fireEventById(this.idObj.form, "searchrequest", sendObj);
-		}, false);
+		const patingElm = document.getElementById(this.idObj.paging);
+		if (patingElm !== null) {
+			patingElm.addEventListener("onsearch", e => {
+				const data: paring_search_result = <paring_search_result>(<CustomEvent>e).detail;
+				console.dir(data);
+				this.current = data.page;
+				this.totalPage = data.totalpage;
+				this.buildPaging(data);
+				this.buildMisc(data);
+			}, false);
+			patingElm.addEventListener("click", e => {
+				e.preventDefault();
+				const clickedElm: HTMLElement = <HTMLElement>e.target;
+				if (!clickedElm.classList.contains("page-link")) {
+					return;
+				}
+				const sendObj: pagingRequest = {
+					"page": 1,
+				};
+				if (clickedElm.classList.contains("isnum")) {
+					sendObj.page = Number(clickedElm.textContent);
+				} else {
+					const addpage: number = Number(clickedElm.getAttribute("data-add"));
+					sendObj.page = PagingManager.calcPrevNextPage(this.current, this.totalPage, addpage);
+				}
+				// active クラスの付け替えはしない 検索動作で再びページング部分が描画されるため
+				fireEventById(this.idObj.form, "searchrequest", sendObj);
+			}, false);
+		}
 	}
 	/**
 	 * ページング部分を作って DOM に追加するメソッド
 	 * @param data イベントで送られてきたデータ
 	 */
 	private buildPaging(data: paring_search_result): void {
-		const wrapPage: HTMLElement = document.getElementById(this.idObj.pagingWrap);
+		const wrapPage: HTMLElement | null = document.getElementById(this.idObj.pagingWrap);
+		if (wrapPage === null) {
+			throw new Error("mandator element not found");
+		}
 		while (wrapPage.lastChild) {
 			wrapPage.removeChild(wrapPage.lastChild);
 		}
@@ -161,10 +175,18 @@ export class PagingManager {
 		}
 		frag.appendChild(cloneOpen2);
 
+		if (this.pagingFragment === null) {
+			throw new Error("mandator element not found");
+		}
+
 		// 中間を足す (少なくとも一つは足される)
 		for (let pageIndex = this.pagingNumberObj.open; pageIndex <= this.pagingNumberObj.close; pageIndex++) {
 			const clone: HTMLElement = <HTMLElement>this.pagingFragment.cloneNode(true);
-			clone.querySelector("a").textContent = pageIndex.toString();
+			const cloneAnchor = clone.querySelector("a");
+			if (cloneAnchor === null) {
+				throw new Error("mandator element not found");
+			}
+			cloneAnchor.textContent = pageIndex.toString();
 			if (pageIndex === data.page) {
 				clone.classList.add("active");
 			}
@@ -183,6 +205,10 @@ export class PagingManager {
 		}
 		frag.appendChild(cloneClose2);
 
+		if (this.pagingBase === null) {
+			throw new Error("mandator element not found");
+		}
+
 		const pagingBaseClone: HTMLUListElement = <HTMLUListElement>this.pagingBase.cloneNode(true);
 		pagingBaseClone.appendChild(frag);
 		wrapPage.appendChild(pagingBaseClone);
@@ -193,6 +219,10 @@ export class PagingManager {
 	 */
 	private buildMisc(data: paring_search_result): void {
 		const str: string = `全 ${data.total} 件 (${data.page} / ${data.totalpage} ページ) ${data.perpage} 件ずつ表示`;
-		document.getElementById(this.idObj.pagingMisc).textContent = str;
+		const miscElm: HTMLElement | null = document.getElementById(this.idObj.pagingMisc);
+		if (miscElm === null) {
+			throw new Error("mandator element not found");
+		}
+		miscElm.textContent = str;
 	}
 }

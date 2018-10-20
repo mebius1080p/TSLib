@@ -15,14 +15,21 @@ class ValidateErrorHandler {
 	 * イベントセットするメソッド
 	 */
 	private setEvent(): void {
-		document.getElementById(this.target).addEventListener("onerror", e => {
+		const targetElm = document.getElementById(this.target);
+		if (targetElm === null) {
+			throw new Error("mandatory element not found");
+		}
+		targetElm.addEventListener("onerror", e => {
 			const errorList = (<CustomEvent>e).detail;
 			for (let i = 0; i < errorList.length; i++) {
 				const element = errorList[i];
-				document.getElementById(element).classList.add("lack_inp");
+				const errorElm = document.getElementById(element);
+				if (errorElm !== null) {
+					errorElm.classList.add("lack_inp");
+				}
 			}
 		}, false);
-		document.getElementById(this.target).addEventListener("onreset", e => {
+		targetElm.addEventListener("onreset", e => {
 			// 必須のほう
 			const inputs = document.querySelectorAll(".validate_text");
 			for (let i = 0; i < inputs.length; i++) {

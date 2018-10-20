@@ -17,12 +17,16 @@ export abstract class TableManagerBase {
 	 * 検索結果をテーブルに反映するメソッド。継承クラスで中身を実装すること
 	 * @param data 検索結果の入った配列
 	 */
-	protected abstract applyToTable(data): void;
+	protected abstract applyToTable<T>(data: T): void;
 	/**
 	 * 検索結果受け取りイベントを設定するメソッド
 	 */
 	private setEvent(): void {
-		document.getElementById(this.idObj.table).addEventListener("onsearch", e => {
+		const tableElm = document.getElementById(this.idObj.table);
+		if (tableElm === null) {
+			throw new Error("mandatory element not found");
+		}
+		tableElm.addEventListener("onsearch", e => {
 			const data: paring_search_result = <paring_search_result>(<CustomEvent>e).detail;
 			this.clearTable();
 			this.applyToTable(data.data);
@@ -32,7 +36,10 @@ export abstract class TableManagerBase {
 	 * 結果テーブルの中身をクリアするメソッド
 	 */
 	private clearTable(): void {
-		const tableElm: HTMLElement = document.getElementById(this.idObj.table);
+		const tableElm: HTMLElement | null = document.getElementById(this.idObj.table);
+		if (tableElm === null) {
+			throw new Error("mandatory element not found");
+		}
 		while (tableElm.lastChild) {
 			tableElm.removeChild(tableElm.lastChild);
 		}

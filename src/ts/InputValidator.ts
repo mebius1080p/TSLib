@@ -1,4 +1,24 @@
-import { IValidatorObj } from "../typings/tslib";
+interface IValidatorObj {
+	"id": string;
+	"value": string;
+	"method": ValidatorMethod;
+	"required": boolean;
+}
+
+interface IInputValidator {
+	basic: (str: string) => boolean;
+	postal: (str: string) => boolean;
+	tel: (str: string) => boolean;
+	mail: (str: string) => boolean;
+}
+
+interface IOptional {
+	id: string;
+	method: ValidatorMethod;
+	value: string;
+}
+
+type ValidatorMethod = "basic" | "postal" | "tel" | "mail";
 
 /**
  * InputValidator
@@ -25,14 +45,18 @@ class InputValidator {
 	 */
 	public ValidateOptional(): void {
 		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_option");
-		const optional = [];
+		const optional: IOptional[] = [];
 		let filledCount: number = 0; // 一つでも埋まっているかどうかをチェックするカウンター
 		// データ収集　オブジェクトの配列を作る
 		for (let i = 0; i < inputs.length; i++) {
 			const element: Element = inputs[i];
+			const method = element.getAttribute("data-validate-method") || "";
+			if (method !== "basic" && method !== "postal" && method !== "tel" && method !== "mail") {
+				throw new Error("invalid method");
+			}
 			optional.push({
 				"id": element.id,
-				"method": element.getAttribute("data-validate-method"),
+				"method": method,
 				"value": (<HTMLInputElement>element).value,
 			});
 			if ((<HTMLInputElement>element).value !== "") {
@@ -61,9 +85,13 @@ class InputValidator {
 		const inputs: NodeListOf<Element> = document.querySelectorAll(".validate_text");
 		for (let i = 0; i < inputs.length; i++) {
 			const element: Element = inputs[i];
+			const method = element.getAttribute("data-validate-method") || "";
+			if (method !== "basic" && method !== "postal" && method !== "tel" && method !== "mail") {
+				throw new Error("invalid method");
+			}
 			this.vObj.push({
 				"id": element.id, // バリデートエラー時にクラスを付与するために使用
-				"method": element.getAttribute("data-validate-method"),
+				"method": method,
 				"required": element.classList.contains("required"), // このフラグを別に用意することで、必須ではないがバリデートはしたいという要望に応えられる
 				"value": (<HTMLInputElement>element).value,
 			});
