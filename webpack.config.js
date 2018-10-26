@@ -1,5 +1,7 @@
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+
 module.exports = {
 	entry: {
 		"sample/async": "./src/ts/sample/async.ts",
@@ -37,5 +39,8 @@ module.exports = {
 		]
 	},
 	plugins: [new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true })],
+	optimization: {
+		minimizer: [new UglifyJsPlugin({ cache: true, parallel: true })]
+	},
 	mode: "production"
 };
