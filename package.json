@@ -4,7 +4,7 @@
   "description": "ts library",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --require ts-node/register \"test/**/*.ts\"",
+    "test": "jest --coverage",
     "cover": "nyc npm run test"
   },
   "directories": {
