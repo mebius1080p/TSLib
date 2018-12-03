@@ -1,6 +1,6 @@
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 	entry: {
@@ -38,9 +38,14 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true })],
+	plugins: [
+		new ForkTsCheckerWebpackPlugin({
+			checkSyntacticErrors: true,
+			workers: ForkTsCheckerWebpackPlugin.TWO_CPUS_FREE
+		})
+	],
 	optimization: {
-		minimizer: [new UglifyJsPlugin({ cache: true, parallel: true })]
+		minimizer: [new TerserPlugin({ cache: true, parallel: true })]
 	},
 	mode: "production"
 };
