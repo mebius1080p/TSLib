@@ -41,6 +41,8 @@ module.exports = {
 	plugins: [
 		new ForkTsCheckerWebpackPlugin({
 			checkSyntacticErrors: true
+			// workers: ForkTsCheckerWebpackPlugin.TWO_CPUS_FREE,
+			// useTypescriptIncrementalApi: false
 		})
 	],
 	optimization: {
