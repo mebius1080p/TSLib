@@ -37,7 +37,11 @@ function redirectChecker(response: Response): void {
  * @param {object} data イベントで転送するデータ
  * @throws {Error} 転送先要素がないときエラー
  */
-export function fireEventById(targetid: string, eventname: string, data: object): void {
+export function fireEventById(
+	targetid: string,
+	eventname: string,
+	data: object
+): void {
 	const evt = document.createEvent("CustomEvent");
 	evt.initCustomEvent(eventname, false, false, data);
 	const targetElm: HTMLElement | null = document.getElementById(targetid);
@@ -53,24 +57,26 @@ export function fireEventById(targetid: string, eventname: string, data: object)
  * @return {Promise<object>} promise object
  */
 export function fetchUtilJson(request: Request): Promise<object> {
-	return fetch(request).then(response => {
-		redirectChecker(response);
-		return new Promise((resolve, reject) => {
-			if (response.ok) {
-				resolve(response.json());
-			} else {
-				reject(response.statusText);
-			}
+	return fetch(request)
+		.then(response => {
+			redirectChecker(response);
+			return new Promise((resolve, reject) => {
+				if (response.ok) {
+					resolve(response.json());
+				} else {
+					reject(response.statusText);
+				}
+			});
+		})
+		.then((json: any) => {
+			return new Promise((resolve, reject) => {
+				if (json.status === "ok") {
+					resolve(json);
+				} else {
+					reject(json);
+				}
+			});
 		});
-	}).then(json => {
-		return new Promise((resolve, reject) => {
-			if ((<any>json).status === "ok") {
-				resolve(json);
-			} else {
-				reject(json);
-			}
-		});
-	});
 }
 
 /**
@@ -100,14 +106,18 @@ export async function fetchUtilJsonAsync(request: Request): Promise<json_obj> {
  * @return {Promise<json_obj>} promise object
  * @throws {*} 通信エラー、ステータス bad などで例外
  */
-export async function ajaxFormAsync(formElm: HTMLFormElement, url: string, classString: string): Promise<json_obj> {
+export async function ajaxFormAsync(
+	formElm: HTMLFormElement,
+	url: string,
+	classString: string
+): Promise<json_obj> {
 	try {
 		const form: FormData = new FormData(formElm);
 		const req: Request = new Request(url, {
 			body: form,
 			credentials: "include",
 			method: "POST",
-			redirect: "manual",
+			redirect: "manual"
 		});
 		disableButtonByClassName(classString);
 		const json = await fetchUtilJsonAsync(req);
@@ -143,11 +153,13 @@ export interface ISimpleFetchOption {
  * @param fetchOption fetch オプション
  * @returns {Promise<IJsonObj<T>>}
  */
-export async function fetchJsonObjAsync<T>(fetchOption: ISimpleFetchOption): Promise<IJsonObj<T>> {
+export async function fetchJsonObjAsync<T>(
+	fetchOption: ISimpleFetchOption
+): Promise<IJsonObj<T>> {
 	const reqOption: RequestInit = {
 		credentials: "include",
 		method: fetchOption.method || "GET",
-		redirect: "manual",
+		redirect: "manual"
 	};
 	if ("body" in fetchOption) {
 		reqOption.body = fetchOption.body;
@@ -171,7 +183,9 @@ export async function fetchJsonObjAsync<T>(fetchOption: ISimpleFetchOption): Pro
  */
 export function disableButtonByClassName(className: string): void {
 	forEachPolyfill();
-	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll("." + className);
+	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
+		"." + className
+	);
 	buttons.forEach(button => {
 		button.disabled = true;
 	});
@@ -183,7 +197,9 @@ export function disableButtonByClassName(className: string): void {
  */
 export function enableButtonByClassName(className: string): void {
 	forEachPolyfill();
-	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll("." + className);
+	const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
+		"." + className
+	);
 	buttons.forEach(button => {
 		button.disabled = false;
 	});
