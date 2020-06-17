@@ -6,14 +6,14 @@ module.exports = {
 	entry: {
 		"sample/async": "./src/ts/sample/async.ts",
 		"pagingSample/index": "./src/ts/pagingSample/index.ts",
-		"buttonSample/index": "./src/ts/buttonSample/index.ts"
+		"buttonSample/index": "./src/ts/buttonSample/index.ts",
 	},
 	output: {
 		path: path.resolve(__dirname, ""),
-		filename: "[name].js"
+		filename: "[name].js",
 	},
 	resolve: {
-		extensions: [".ts"]
+		extensions: [".ts"],
 	},
 	module: {
 		rules: [
@@ -25,28 +25,30 @@ module.exports = {
 						loader: "thread-loader",
 						options: {
 							// there should be 1 cpu for the fork-ts-checker-webpack-plugin
-							workers: require("os").cpus().length - 1
-						}
+							workers: require("os").cpus().length - 1,
+						},
 					},
 					{
 						loader: "ts-loader",
 						options: {
-							happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
-						}
-					}
-				]
-			}
-		]
+							happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
+						},
+					},
+				],
+			},
+		],
 	},
 	plugins: [
 		new ForkTsCheckerWebpackPlugin({
-			checkSyntacticErrors: true
-			// workers: ForkTsCheckerWebpackPlugin.TWO_CPUS_FREE,
-			// useTypescriptIncrementalApi: false
-		})
+			typescript: {
+				diagnosticsOptions: {
+					syntactic: true,
+				},
+			},
+		}),
 	],
 	optimization: {
-		minimizer: [new TerserPlugin({ cache: true, parallel: true })]
+		minimizer: [new TerserPlugin({ cache: true, parallel: true })],
 	},
-	mode: "production"
+	mode: "production",
 };
