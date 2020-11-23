@@ -48,7 +48,7 @@ module.exports = {
 		}),
 	],
 	optimization: {
-		minimizer: [new TerserPlugin({ cache: true, parallel: true })],
+		minimizer: [new TerserPlugin({ parallel: true })],
 	},
 	mode: "production",
 };
