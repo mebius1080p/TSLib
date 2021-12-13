@@ -1,5 +1,6 @@
 import { id_detail, json_obj, url_detail } from "../../typings/base";
 import { ajaxFormAsync } from "../common";
+import { hasMessage } from "../typeGuard";
 
 /**
  * DetailManagerBase 詳細・新規作成ページを管理するクラス
@@ -17,44 +18,72 @@ export class DetailManagerBase {
 		// コミット
 		const commitBtn = document.getElementById(this.idObj.commit);
 		if (commitBtn !== null) {
-			commitBtn.addEventListener("click", async () => {
-				try {
-					const formElm: HTMLFormElement = <HTMLFormElement>document.getElementById(this.idObj.form);
-					const json: json_obj = await ajaxFormAsync(formElm, this.urlObj.commit, "switchable");
-					alert("登録しました");
-				} catch (error) {
-					console.dir(error);
-					if ("message" in error) {
-						alert(error.message);
+			commitBtn.addEventListener(
+				"click",
+				async () => {
+					try {
+						const formElm: HTMLFormElement = <HTMLFormElement>(
+							document.getElementById(this.idObj.form)
+						);
+						const json: json_obj = await ajaxFormAsync(
+							formElm,
+							this.urlObj.commit,
+							"switchable"
+						);
+						alert("登録しました");
+					} catch (error) {
+						console.dir(error);
+						if (hasMessage(error)) {
+							alert(error.message);
+						}
 					}
-				}
-			}, false);
+				},
+				false
+			);
 		}
 
 		// 削除
-		const deleteBtn: HTMLElement | null = document.getElementById(this.idObj.delete);
+		const deleteBtn: HTMLElement | null = document.getElementById(
+			this.idObj.delete
+		);
 		if (deleteBtn !== null) {
-			deleteBtn.addEventListener("click", async () => {
-				try {
-					const formElm: HTMLFormElement = <HTMLFormElement>document.getElementById(this.idObj.form);
-					const json: json_obj = await ajaxFormAsync(formElm, this.urlObj.commit, "switchable");
-					alert("削除しました");
-					location.href = this.urlObj.cancel;
-				} catch (error) {
-					console.dir(error);
-					if ("message" in error) {
-						alert(error.message);
+			deleteBtn.addEventListener(
+				"click",
+				async () => {
+					try {
+						const formElm: HTMLFormElement = <HTMLFormElement>(
+							document.getElementById(this.idObj.form)
+						);
+						const json: json_obj = await ajaxFormAsync(
+							formElm,
+							this.urlObj.commit,
+							"switchable"
+						);
+						alert("削除しました");
+						location.href = this.urlObj.cancel;
+					} catch (error) {
+						console.dir(error);
+						if (hasMessage(error)) {
+							alert(error.message);
+						}
 					}
-				}
-			}, false);
+				},
+				false
+			);
 		}
 
 		// キャンセル
-		const cancelBtn: HTMLElement | null = document.getElementById(this.idObj.cancel);
+		const cancelBtn: HTMLElement | null = document.getElementById(
+			this.idObj.cancel
+		);
 		if (cancelBtn !== null) {
-			cancelBtn.addEventListener("click", () => {
-				location.href = this.urlObj.cancel;
-			}, false);
+			cancelBtn.addEventListener(
+				"click",
+				() => {
+					location.href = this.urlObj.cancel;
+				},
+				false
+			);
 		}
 	}
 }

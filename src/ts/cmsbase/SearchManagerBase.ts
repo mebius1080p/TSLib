@@ -1,5 +1,6 @@
 import { id_search, json_obj_search, pagingRequest, url_search } from "../../typings/base";
 import { ajaxFormAsync, fireEventById } from "../common";
+import { hasMessage } from "../typeGuard";
 
 /**
  * SearchManagerBase 検索部を担当する基本クラス
@@ -32,7 +33,7 @@ export class SearchManagerBase {
 				fireEventById(this.idObj.table, "onsearch", json.data);
 			} catch (error) {
 				console.dir(error);
-				if ("message" in error) {
+				if (hasMessage(error)) {
 					alert(error.message);
 				}
 			}

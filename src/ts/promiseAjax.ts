@@ -4,7 +4,7 @@ interface IPromiseAjaxParam {
 	method: string;
 	url: string;
 	type: string;
-	data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null | undefined;
+	data: string | Document | XMLHttpRequestBodyInit | null | undefined;
 }
 
 // customize function from "html5 rocks promise"
@@ -37,8 +37,7 @@ export function promiseAjax(param: IPromiseAjaxParam) {
 						resolve(req.response);
 						break;
 				}
-			}
-			else {
+			} else {
 				// Otherwise reject with the status text
 				// which will hopefully be a meaningful error
 				reject(new Error(req.statusText));
