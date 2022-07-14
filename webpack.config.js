@@ -22,7 +22,7 @@ module.exports = {
 						loader: "esbuild-loader",
 						options: {
 							loader: "tsx",
-							target: "es2016",
+							target: "es2020",
 						},
 					},
 				],
@@ -40,7 +40,7 @@ module.exports = {
 	],
 	optimization: {
 		minimize: true,
-		minimizer: [new ESBuildMinifyPlugin({ target: "es2016" })],
+		minimizer: [new ESBuildMinifyPlugin({ target: "es2020" })],
 	},
 	mode: "production",
 };
