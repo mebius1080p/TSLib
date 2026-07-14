@@ -1,6 +1,7 @@
 "use strict";
 // import { assert } from "chai";
 // import { describe, it } from "mocha";
+import { describe, expect, it } from '@jest/globals';
 import { summarize, summarize2, summarizeType } from "../src/ts/summarize";
 
 describe("summarize test1", () => {

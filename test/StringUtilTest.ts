@@ -1,4 +1,5 @@
 "use strict";
+import { describe, expect, it } from '@jest/globals';
 import { StringUtil } from "../src/ts/StringUtil";
 
 describe("StringUtil test", () => {
